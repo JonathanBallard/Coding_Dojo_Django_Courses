@@ -7,7 +7,11 @@ from .models import *
  
 # Create your views here. 
 def index(request): 
-    return render(request, 'courses/index.html') 
+    all_courses = Course.objects.all()
+    context = {
+        "all_courses" : all_courses,
+    }
+    return render(request, 'courses/index.html', context) 
 
 
 def newCourse(request):
@@ -31,6 +35,15 @@ def newCourse(request):
 
 
 def destroyCourse(request, id):
-    pass
+    delCourse = Course.objects.get(id=id)
+    context = {
+        "course" : delCourse,
+    }
+    return render(request, "courses/destroy.html", context)
+
+def deleteCourse(request, id):
+    delCourse = Course.objects.get(id=id)
+    delCourse.delete()
+    return redirect('/')
 
 
